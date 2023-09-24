@@ -66,7 +66,7 @@ exports.getNotes = async (req, res, next) => {
 		]);
 
 		if (!notes.length || !total.length) {
-			throw { status: 200, message: "No notes found" };
+			throw { status: 200, emessage: "No notes found" };
 		}
 
 		notes = notes[0];
@@ -92,7 +92,7 @@ exports.getNotes = async (req, res, next) => {
 		constants.error_resp.statusCode = error.status || 500;
 		constants.error_resp.responseBody.status = 0;
 		constants.error_resp.responseBody.message =
-			error.message || "Internal server error";
+			error.emessage || "Internal server error";
 		constants.error_resp.responseBody.details = null;
 		return next(constants.error_resp);
 	}
@@ -106,7 +106,7 @@ exports.addNotes = async (req, res, next) => {
 			!req.body.data ||
 			String(req.body.data).trim() === ""
 		) {
-			throw { status: 400, message: "Invalid requests" };
+			throw { status: 400, emessage: "Invalid requests" };
 		}
 
 		const noteData = new notesModel({
@@ -120,7 +120,7 @@ exports.addNotes = async (req, res, next) => {
 		const savedData = await noteData.save();
 
 		if (!savedData) {
-			throw { message: "Error while saving the data" };
+			throw { emessage: "Error while saving the data" };
 		}
 
 		const {
@@ -149,7 +149,7 @@ exports.addNotes = async (req, res, next) => {
 		constants.error_resp.statusCode = error.status || 500;
 		constants.error_resp.responseBody.status = 0;
 		constants.error_resp.responseBody.message =
-			error.message || "Internal server error";
+			error.emessage || "Internal server error";
 		constants.error_resp.responseBody.details = null;
 		return next(constants.error_resp);
 	}
@@ -178,7 +178,7 @@ exports.editNotes = async (req, res, next) => {
 		);
 
 		if (!updatedRecord) {
-			throw { message: "Error saving the data" };
+			throw { emessage: "Error saving the data" };
 		}
 
 		const {
@@ -206,7 +206,7 @@ exports.editNotes = async (req, res, next) => {
 		constants.error_resp.statusCode = error.status || 500;
 		constants.error_resp.responseBody.status = 0;
 		constants.error_resp.responseBody.message =
-			error.message || "Internal server error";
+			error.emessage || "Internal server error";
 		constants.error_resp.responseBody.details = null;
 		return next(constants.error_resp);
 	}
@@ -215,7 +215,7 @@ exports.editNotes = async (req, res, next) => {
 exports.deleteNotes = async (req, res, next) => {
 	try {
 		if (!req.params.id || String(req.params.id).trim() === "") {
-			throw { status: 400, message: "Invalid request" };
+			throw { status: 400, emessage: "Invalid request" };
 		}
 
 		const deletedData = await notesModel.findOneAndUpdate(
@@ -225,7 +225,7 @@ exports.deleteNotes = async (req, res, next) => {
 		);
 
 		if (!deletedData?.deleted) {
-			throw { status: 500, message: "Error deleting data" };
+			throw { status: 500, emessage: "Error deleting data" };
 		}
 
 		const {
@@ -248,7 +248,7 @@ exports.deleteNotes = async (req, res, next) => {
 		constants.error_resp.statusCode = error.status || 500;
 		constants.error_resp.responseBody.status = 0;
 		constants.error_resp.responseBody.message =
-			error.message || "Internal server error";
+			error.emessage || "Internal server error";
 		constants.error_resp.responseBody.details = null;
 		return next(constants.error_resp);
 	}

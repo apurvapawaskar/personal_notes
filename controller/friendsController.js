@@ -19,7 +19,7 @@ exports.getFriends = async (req, res, next) => {
 		constants.error_resp.statusCode = error.status || 500;
 		constants.error_resp.responseBody.status = 0;
 		constants.error_resp.responseBody.message =
-			error.message || "Internal server error";
+			error.emessage || "Internal server error";
 		constants.error_resp.responseBody.details = null;
 		return next(constants.error_resp);
 	}
@@ -28,7 +28,7 @@ exports.getFriends = async (req, res, next) => {
 exports.addFriends = async (req, res, next) => {
 	try {
 		if (!req.body?.id || String(req.body.id).trim() == "") {
-			throw { message: "Invalid request", status: 400 };
+			throw { emessage: "Invalid request", status: 400 };
 		}
 
 		const updatedData = await userModel.findOneAndUpdate(
@@ -38,7 +38,7 @@ exports.addFriends = async (req, res, next) => {
 		);
 
 		if (!updatedData) {
-			throw { message: "Error while saving the data" };
+			throw { emessage: "Error while saving the data" };
 		}
 
 		res.status(200).json({
@@ -50,7 +50,7 @@ exports.addFriends = async (req, res, next) => {
 		constants.error_resp.statusCode = error.status || 500;
 		constants.error_resp.responseBody.status = 0;
 		constants.error_resp.responseBody.message =
-			error.message || "Internal server error";
+			error.emessage || "Internal server error";
 		constants.error_resp.responseBody.details = null;
 		return next(constants.error_resp);
 	}
@@ -78,7 +78,7 @@ exports.getUserToAddAsFriends = async (req, res, next) => {
 		constants.error_resp.statusCode = error.status || 500;
 		constants.error_resp.responseBody.status = 0;
 		constants.error_resp.responseBody.message =
-			error.message || "Internal server error";
+			error.emessage || "Internal server error";
 		constants.error_resp.responseBody.details = null;
 		return next(constants.error_resp);
 	}

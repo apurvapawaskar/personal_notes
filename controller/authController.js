@@ -11,7 +11,7 @@ exports.signupController = async (req, res, next) => {
 			deleted: false,
 		});
 		if (userExists) {
-			throw { status: 400, message: "User already exists" };
+			throw { status: 400, emessage: "User already exists" };
 		}
 
 		const epassword = await bcrypt.hash(req.body.password, 10);
@@ -25,7 +25,7 @@ exports.signupController = async (req, res, next) => {
 		const savedUser = await userData.save();
 
 		if (!savedUser) {
-			throw { message: "Error while saving." };
+			throw { emessage: "Error while saving." };
 		}
 
 		const {
@@ -51,7 +51,7 @@ exports.signupController = async (req, res, next) => {
 		constants.error_resp.statusCode = error.status || 500;
 		constants.error_resp.responseBody.status = 0;
 		constants.error_resp.responseBody.message =
-			error.message || "Internal server error";
+			error.emessage || "Internal server error";
 		constants.error_resp.responseBody.details = null;
 		return next(constants.error_resp);
 	}
@@ -64,12 +64,12 @@ exports.loginController = async (req, res, next) => {
 		const userData = await userModel.findOne({ email, deleted: false });
 
 		if (!userData) {
-			throw { status: 200, message: "No user found" };
+			throw { status: 200, emessage: "No user found" };
 		}
 
 		const valid = await bcrypt.compare(epassword, userData.password);
 		if (!valid) {
-			throw { status: 400, message: "Invalid username/password" };
+			throw { status: 400, emessage: "Invalid username/password" };
 		}
 
 		const payload = {
@@ -117,7 +117,7 @@ exports.loginController = async (req, res, next) => {
 		constants.error_resp.statusCode = error.status || 500;
 		constants.error_resp.responseBody.status = 0;
 		constants.error_resp.responseBody.message =
-			error.message || "Internal server error";
+			error.emessage || "Internal server error";
 		constants.error_resp.responseBody.details = null;
 		return next(constants.error_resp);
 	}
