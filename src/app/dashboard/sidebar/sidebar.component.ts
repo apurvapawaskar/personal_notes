@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
+
 import { AuthService } from 'src/app/auth/auth.service';
+import { DashboardService } from '../dashboard.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,15 +10,25 @@ import { AuthService } from 'src/app/auth/auth.service';
 })
 export class SidebarComponent implements OnInit {
   menu_items: any;
+  userName = 'John Doe';
 
   @Output() menuAction = new EventEmitter<{ action: number; type: string }>();
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private dashService: DashboardService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
+    this.dashService.getProfile().subscribe((resp) => {
+      if (resp.status) {
+        this.userName = resp.details.name;
+      }
+    });
+
     const menu_items_data = [
-      { name: 'Listing', value: 'list', id: 1, routerLink: "dashboard" },
-      { name: 'Friends', value: 'users', id: 2, routerLink: "friends" },
+      { name: 'Listing', value: 'list', id: 1, routerLink: '/' },
+      { name: 'Friends', value: 'users', id: 2, routerLink: 'friends' },
       { name: 'Logout', value: 'logout', id: 3 },
     ];
 
@@ -25,7 +36,7 @@ export class SidebarComponent implements OnInit {
   }
 
   /**
-   * 
+   *
    * @param {{ action: number; type: string }} item The item which user selects
    * Handles the user input on sidebar.
    */

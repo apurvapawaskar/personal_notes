@@ -17,6 +17,10 @@ export class DashboardService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
+  getProfile() {
+    return this.http.get<ResponseModel>(this.baseUrl + '/profile');
+  }
+
   getNoteOb() {
     return this.notesDataSubject.asObservable();
   }
@@ -83,7 +87,7 @@ export class DashboardService {
     return this.http.get<ResponseModel>(this.baseUrl + '/friends/users');
   }
 
-  addFriend(id: string){
-    return this.http.post<ResponseModel>(this.baseUrl + '/friends', {id});
+  addFriend(id: string) {
+    return this.http.post<ResponseModel>(this.baseUrl + '/friends', { id });
   }
 }

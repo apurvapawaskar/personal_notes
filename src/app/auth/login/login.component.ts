@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 // import { emailValidator } from 'src/app/validators/emailvalidator.validator';
 import { AuthService } from '../auth.service';
 import { emailValidator } from 'src/app/validators/emailvalidator.validator';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,9 +17,13 @@ export class LoginComponent {
   error: any = null;
   form!: FormGroup;
   private errorSub!: Subscription;
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
+    const isAuth = this.authService.getIsAuth();
+    if (isAuth) {
+      this.router.navigate(['dashboard']);
+    }
     this.errorSub = this.authService.getErrorSub().subscribe((err) => {
       this.error = err;
       if (this.error) {
@@ -26,7 +31,7 @@ export class LoginComponent {
         this.submitted = false;
       }
     });
-    
+
     this.form = new FormGroup({
       email: new FormControl(null, {
         validators: [Validators.required, emailValidator(this.authService)],
