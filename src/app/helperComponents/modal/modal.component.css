@@ -1,0 +1,17 @@
+button {
+  word-wrap: break-word;
+}
+
+
+/* You can add global styles to this file, and also import other style files */
+.modal-body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.modal-body {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}

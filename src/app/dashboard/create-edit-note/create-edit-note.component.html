@@ -1,0 +1,81 @@
+<app-sidebar></app-sidebar>
+
+<div class="container">
+  <div class="mt-5 mx-auto w-50">
+    <div
+      *ngIf="error && form?.touched"
+      class="alert alert-danger text-center text-wrap"
+    >
+      {{ error }}
+    </div>
+  </div>
+  <div
+    class="h-75 w-75 m-auto bg-light bg-gradient rounded-2 overflow-hidden mt-2"
+    >
+    <div class="row mb-3 mt-5">
+      <div class="col mx-auto col-auto">
+        <h3>
+          {{ editMode ? "Edit Notes" : "Create Note" }}
+        </h3>
+      </div>
+      <hr />
+    </div>
+    <form [formGroup]="form" (ngSubmit)="doAction()">
+      <div class="row">
+        <div class="col col-auto mx-auto">
+          <div class="row px-2 my-4">
+            <div class="col col-auto">
+              <h5><span class="text-danger">*&nbsp;</span>{{ "Title :" }}</h5>
+            </div>
+            <div class="col col-auto">
+              <input
+                type="text"
+                formControlName="title"
+                required
+                class="form-control form-control-sm"
+                [ngStyle]="{
+                  border:
+                    (form.get('title')?.invalid &&
+                      form.get('title')?.touched) ||
+                    (submitted && form.get('title')?.invalid)
+                      ? '1px solid red'
+                      : ''
+                }"
+              />
+            </div>
+          </div>
+          <div class="row px-2 my-4">
+            <div class="col col-auto">
+              <label for="note_data" class="form-label">
+                <h5><span class="text-danger">*&nbsp;</span>{{ "Data :" }}</h5>
+              </label>
+            </div>
+            <div class="col col-auto">
+              <textarea
+                class="form-control"
+                formControlName="data"
+                id="note_data"
+                rows="2"
+                required
+                [ngStyle]="{
+                  border:
+                    (form.get('data')?.invalid && form.get('data')?.touched) ||
+                    (submitted && form.get('data')?.invalid)
+                      ? '1px solid red'
+                      : ''
+                }"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 text-center mt-1 mb-4">
+          <button class="btn btn-outline-success" type="submit">
+            {{ editMode ? "Update" : "Create" }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<app-loading *ngIf="isLoading"></app-loading>

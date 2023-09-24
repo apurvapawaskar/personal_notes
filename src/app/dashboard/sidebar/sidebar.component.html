@@ -1,0 +1,62 @@
+<nav class="navbar navbar-dark bg-primary sticky-top fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand h1 mb-0" href="/dashboard">Notes</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#sidebar"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div
+      class="offcanvas offcanvas-start"
+      tabindex="-1"
+      id="sidebar"
+      data-bs-scroll="true"
+    >
+      <div class="offcanvas-header bg-primary">
+        <h5 class="offcanvas-title text-white">Notes</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white text-reset"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <div class="container mb-3">
+          <div class="row">
+            <div class="m-auto h-50 w-50">
+              <img
+                src="assets/placeholder/profile.png"
+                class="img-fluid rounded-circle"
+                alt=""
+              />
+            </div>
+          </div>
+          <div class="row text-center mt-3">
+            <h4>
+              {{ "Apurva Pawaskar" }}
+            </h4>
+          </div>
+        </div>
+        <hr />
+        <div *ngFor="let item of menu_items" class="row p-2 justify-content-center">
+          <div class="col flex-grow-0">
+            <img src="assets/icons/{{ item.value }}.svg" />
+          </div>
+          <div *ngIf="item?.routerLink; then thenBlock else elseBlock"></div>
+          <ng-template #thenBlock><div class="col flex-grow-0 menu-listing" data-bs-dismiss="offcanvas" [routerLink]="[item.routerLink]">
+            {{ item.name }}
+          </div></ng-template>
+          <ng-template #elseBlock><div class="col flex-grow-0 menu-listing" data-bs-dismiss="offcanvas" (click)="menuClicked(item)">
+            {{ item.name }}
+          </div></ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

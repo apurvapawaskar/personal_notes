@@ -1,0 +1,79 @@
+<div
+  class="container-fluid d-flex align-content-center justify-content-center vh-100"
+>
+  <div class="row my-auto">
+    <div class="col-8 mx-auto">
+      <div class="row">
+        <h3 class="text-center mb-3">LOGIN</h3>
+        <hr />
+
+        <div class="col-10 m-auto">
+            <div *ngIf="error && form?.touched" class="alert alert-danger text-center text-wrap">
+              {{ error }}
+            </div>
+          <form [formGroup]="form" (ngSubmit)="onLogin()">
+            <!-- Email -->
+            <div class="input-group mb-3">
+              <div class="input-group-text d-none d-sm-block">
+                <img src="assets/icons/mail.svg" height="18px" alt="" />
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Email Address"
+                formControlName="email"
+                [ngStyle]="{
+                  border:
+                    (form.get('email')?.invalid &&
+                      form.get('email')?.touched) ||
+                    (submitted && form.get('email')?.invalid)
+                      ? '1px solid red'
+                      : ''
+                }"
+                autocomplete="off"
+              />
+            </div>
+
+            <!-- Password -->
+            <div class="input-group mb-3">
+              <div class="input-group-text d-none d-sm-block">
+                <img src="assets/icons/lock.svg" height="18px" alt="" />
+              </div>
+              <input
+                type="password"
+                class="form-control"
+                placeholder="Password"
+                formControlName="password"
+                minlength="8"
+                maxlength="16"
+                [ngStyle]="{
+                  border:
+                    (form.get('password')?.invalid &&
+                      form.get('password')?.touched) ||
+                    (submitted && form.get('password')?.invalid)
+                      ? '1px solid red'
+                      : ''
+                }"
+              />
+            </div>
+
+            <div class="mx-auto col-7">
+              <button
+                type="submit"
+                [disabled]="form.invalid"
+                class="btn btn-primary col-12 mt-3"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="col-auto my-4 mx-auto">
+          <h6>New user ?&nbsp;&nbsp;<a class="text-primary text-decoration-none" [routerLink]="['signup']">Create Account</a></h6>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-loading *ngIf="isLoading"></app-loading>
+</div>

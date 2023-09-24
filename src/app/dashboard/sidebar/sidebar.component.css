@@ -1,0 +1,7 @@
+.offcanvas {
+  --bs-offcanvas-width: 350px;
+}
+
+.menu-listing {
+  cursor: pointer;
+}

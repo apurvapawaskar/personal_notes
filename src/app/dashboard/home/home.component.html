@@ -1,0 +1,92 @@
+<app-sidebar></app-sidebar>
+<div class="container mt-4">
+  <div class="row justify-content-end">
+    <div class="col col-auto">
+      <button class="btn btn-outline-secondary" [routerLink]="['note']">
+        + New Note
+      </button>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div *ngIf="notes.length" class="col-8 m-auto">
+      <div
+        *ngFor="let note of notes; let last = last"
+        class="card my-3"
+        [ngClass]="{ 'mb-5': last }"
+      >
+        <div class="card-header">
+          <div class="row">
+            <div
+              class="col {{
+                note.canEdit ? 'col-auto m-auto' : 'offset-4 ps-4'
+              }}"
+            >
+              <h5 class="text-center d-inline-block">
+                {{ note.title }}
+              </h5>
+            </div>
+            <div *ngIf="note.canEdit" class="col col-auto">
+              <div class="dropdown">
+                <div
+                  class="d-inline-block"
+                  style="height: 30px; width: 30px; cursor: pointer"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <img src="assets/icons/more.svg" alt="Edit" />
+                </div>
+
+                <ul class="dropdown-menu">
+                  <li style="cursor: pointer;" [routerLink]="['note', { id: note.id }]">
+                    <div
+                      class="dropdown-item d-inline-block"
+                      style="height: 30px; width: 30px;"
+                    >
+                      <img src="assets/icons/edit.svg" alt="Edit" />
+                    </div>
+                    <h6 class="d-inline-block ms-3">Edit</h6>
+                  </li>
+                  <li style="cursor: pointer;" (click)="deleteNote(note.id)">
+                    <div
+                      class="dropdown-item d-inline-block"
+                      style="height: 30px; width: 30px;"
+                    >
+                      <img src="assets/icons/delete.svg" alt="Edit" />
+                    </div>
+                    <h6 class="d-inline-block ms-3">Delete</h6>
+                  </li>
+                </ul>
+              </div>
+              <!-- <div class="dropdown-item" style="height: 30px; width: 30px;cursor: pointer;" [routerLink]="['note',{id: note.id}]">
+                <img src="assets/icons/edit.svg" alt="Edit">
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-text text-center">
+            {{ note.data }}
+          </p>
+        </div>
+        <div class="card-footer text-end text-body-secondary">
+          By {{ note.author }}, on
+          {{ note.date | date : "dd MMM,yyyy hh:mm a" }}
+        </div>
+      </div>
+      <div class="container-fluid mb-5">
+        <mat-paginator
+          [length]="totalRecords"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="pageSizeOptions"
+          aria-label="Select page"
+          (page)="onPageChange($event)"
+          *ngIf="pageSize > 0 && !isLoading"
+        >
+        </mat-paginator>
+      </div>
+    </div>
+    <div *ngIf="!notes.length" class="text-center">No notes availables</div>
+  </div>
+</div>
+<app-modal (closeModal)="doDelete($event)"></app-modal>
+<app-loading *ngIf="isLoading"></app-loading>

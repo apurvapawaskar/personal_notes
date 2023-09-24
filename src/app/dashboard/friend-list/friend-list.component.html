@@ -1,0 +1,58 @@
+<app-sidebar></app-sidebar>
+
+<div class="container">
+  <div class="row mt-5 justify-content-end">
+    <div class="col col-auto">
+      <button
+      *ngIf="users.length > 0"
+        class="btn btn-outline-primary"
+        [disabled]="formOpen"
+        (click)="formOpen = true"
+        data-bs-toggle="collapse"
+        data-bs-target="#addFriend"
+      >
+        Add Friend
+      </button>
+    </div>
+  </div>
+  <div class="row mt-3 mx-auto">
+    <div class="col col-auto mx-auto">
+      <div class="collapse" id="addFriend">
+        <div class="row justify-content-center">
+          <div class="col col-auto">
+            <h5>{{ "Select a user :" }}</h5>
+          </div>
+          <div class="col col-auto">
+            <select class="form-select" (change)="userSelected($event)">
+                <option selected value="">{{"-- Select a user --"}}</option>
+                <option *ngFor="let user of users" [value]="user.id">{{user.name | titlecase }}</option>                
+              </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-8 mx-auto">
+      <div class="row mb-3 mt-5">
+        <div class="col mx-auto col-auto">
+          <h3>
+            {{ "Friend List" }}
+          </h3>
+        </div>
+        <hr />
+        <div *ngIf="friends.length > 0; then thenBlock; else elseBlock"></div>
+        <ng-template #thenBlock
+          ><div *ngFor="let friend of friends" class="col-auto d-block mx-auto">
+            <h5 class="text-center mt-3">
+              {{ friend }}
+            </h5>
+          </div></ng-template
+        >
+        <ng-template #elseBlock
+          ><h4 class="text-center mt-5">No Friends Found</h4></ng-template
+        >
+      </div>
+    </div>
+  </div>
+</div>
